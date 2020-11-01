@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -53,11 +56,29 @@ public class ItemDataAdapter extends RecyclerView.Adapter<ItemDataAdapter.ViewHo
                 context.startActivity(intent);
             }
         });
+
+        holder.layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Cart.addProduct(product);
+
+                Toast toast = new Toast(context);
+                toast.setText("Added");
+                toast.show();
+
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return products.size();
+    }
+
+    public void addProduct(Product product){
+        products.add(product);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
